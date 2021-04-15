@@ -8,6 +8,8 @@ It use the Library of apache.log4j core and api.
     -   Get a Protocol(File) from the collected log data
     -   Get the Logger Analysis data
     -   Display the average load
+## Documentation
+[RSLogger - Documentaion(Link)]("https://documentation.peacetoke.com/rslogger/1_4_5")
 
 ## Example:
 ```java
