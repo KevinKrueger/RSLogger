@@ -29,8 +29,8 @@ public class RSLogger
     private static Logger LOGGER;
     private static LoggerProtocol protocol;
     private static long startTime; // Start Execution Time
-    private static int errorCount = 0, warningCount = 0, infoCount = 0; // Analysis
-    private final static String version = "1.4.5";
+    private static int errorCount = 0, warningCount = 0, infoCount = 0, debugCount = 0; // Analysis
+    private final static String version = "1.4.6";
 
     /**
      * Described the Type of the Log
@@ -63,6 +63,7 @@ public class RSLogger
     /**
      * Show a info message in the Console
      * @param msg Show this Message in Console
+     * @param thisClass Describes the class where the action is performed
      */
     public void log(Class<?> thisClass, String msg)
     {
@@ -74,8 +75,8 @@ public class RSLogger
     }
 
     /**
-     *  May only be used for try & catch or other queries where errors can be spit!
-     *  => Development mode is not considered!
+     *  May only be used for try and catch or other queries where errors can be spit!
+     *  Development mode is not considered!
      *  @param thisClass Describes the class where the action is performed
      *  @param msg this Message in Console
      *  @param exception Spits out information in connection with the logger about the error
@@ -121,7 +122,21 @@ public class RSLogger
             LOGGER.info(msg);
     }
 
-    public static boolean isDeveloperMode()
+    /**
+     *  Displays a completed operation as a message
+     *  @param thisClass Describes the class where the action is performed
+     *  @param msg this Message in Console
+     */
+    public void debug(Class<?> thisClass, String msg)
+    {
+        debugCount++;
+        protocol.AddProtocolLine(LoggerType.DEBUG, getTimestamp(),thisClass, msg);
+        protocol.AddDeviceProtocolLine(this.getClass(), Device.getDeviceMemory());
+        if(isDeveloperMode())
+            LOGGER.debug(msg);
+    }
+
+    public boolean isDeveloperMode()
     {
         return DeveloperMode;
     }
@@ -131,7 +146,7 @@ public class RSLogger
         RSLogger.DeveloperMode = DeveloperMode;
     }
 
-    public static String Version(){
+    public String Version(){
         return version;
     }
 
@@ -157,7 +172,7 @@ public class RSLogger
             long minutes = seconds / 60;
             long hours = minutes / 60;
 
-            String AnalysisMessage = String.format("Time: %02d:%02d:%02d", hours, minutes, seconds )+ ", Errors: " + errorCount + ", Warnings: " + warningCount+", Infos: " + infoCount;
+            String AnalysisMessage = String.format("Time: %02d:%02d:%02d", hours, minutes, seconds )+ ", Errors: " + errorCount + ", Warnings: " + warningCount+", Infos: " + infoCount +", Debugs: " + debugCount;
             protocol.AddProtocolLine(LoggerType.ANALYSES, getTimestamp(),thisClass, AnalysisMessage);
 
             return AnalysisMessage;
@@ -169,6 +184,7 @@ public class RSLogger
     /**
      * Saves the protocol in the desired location
      * @param file Describes the path where the file should be saved
+     * @param thisClass Describes the class where the action is performed
      * @throws Exception If the file saving fails
      */
     public void SaveLoggerProtocol(String file,Class<?> thisClass) throws Exception {
