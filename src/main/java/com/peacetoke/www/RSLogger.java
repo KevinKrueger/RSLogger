@@ -1,5 +1,6 @@
 package com.peacetoke.www;
 
+
 import org.apache.logging.log4j.Logger;
 
 import javax.management.*;
@@ -22,7 +23,7 @@ import java.util.List;
 /**
  * Logger class for Development
  **/
-public class RSLogger implements ILogger
+public class RSLogger
 {
     private static boolean DeveloperMode = true;
     private static Logger LOGGER;
