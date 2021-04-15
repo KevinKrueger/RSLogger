@@ -11,17 +11,17 @@ It use the Library of apache.log4j core and api.
 
 ## Example:
 ```java
-        public class Main
-        {
-            // Init: DevelperMode = true
-            final static RSLogger logger = new RSLogger(LogManager.getLogger(), true);
+public class Main
+{
+    // Init: DevelperMode = true
+    final static RSLogger logger = new RSLogger(LogManager.getLogger(), true);
 
-            public static void main(String[] args)
-            {
-                logger.log(Main.class, "Hello World");
-            }
+    public static void main(String[] args)
+    {
+        logger.log(Main.class, "Hello World");
+    }
         
-        }
+}
 ```
 ## For Your Extensions:
 If you want to make the logger available everywhere,
@@ -29,8 +29,8 @@ you can create an interface which passes the instance.<br>
 This way you can collect information in every class!
 
 ```java
-        public interface ILogger
-        {
-            static RSLogger LOGGER = Main.logger;
-        }
+public interface ILogger
+{
+    static RSLogger LOGGER = Main.logger;
+}
 ```
