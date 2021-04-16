@@ -1,4 +1,4 @@
-package com.peacetoke.www;
+package com.peacetoke.www.rslogger;
 
 import java.sql.Timestamp;
 
@@ -7,7 +7,7 @@ import java.sql.Timestamp;
  */
 public interface IConvertLoggerProtocolLine
 {
-    RSLogger.LoggerType getLoggerType();
+    LoggerType getLoggerType();
     Timestamp getTimeStamp();
     Class<?> thisClass();
     String getMsg();
