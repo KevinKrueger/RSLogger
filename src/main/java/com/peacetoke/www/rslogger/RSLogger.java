@@ -33,8 +33,7 @@ public class RSLogger
         setDeveloperMode(DeveloperMode);
         LOGGER = logger;
         protocol = new LoggerProtocol();
-        protocol.AddDeviceProtocolLine(this.getClass(), Device.getCurrentDeviceInfo()); //First CPU and Memory usage Snapshot
-        protocol.AddProtocolLine(LoggerType.DEBUG, getTimestamp(),this.getClass(), "RSLogger Initialized");
+        debug(this.getClass(), "RSLogger Initialized");
     }
 
     /**
@@ -148,11 +147,7 @@ public class RSLogger
             long seconds = elapsedTime / 1000;
             long minutes = seconds / 60;
             long hours = minutes / 60;
-
-            String AnalysisMessage = String.format("Time: %02d:%02d:%02d", hours, minutes, seconds )+ ", Errors: " + errorCount + ", Warnings: " + warningCount+", Infos: " + infoCount +", Debugs: " + debugCount;
-            protocol.AddProtocolLine(LoggerType.ANALYSES, getTimestamp(),thisClass, AnalysisMessage);
-
-            return AnalysisMessage;
+            return String.format("Time: %02d:%02d:%02d", hours, minutes, seconds )+ ", Errors: " + errorCount + ", Warnings: " + warningCount+", Infos: " + infoCount +", Debugs: " + debugCount;
         }
         else
             return "Activate 'DeveloperMode' to get Logger Analysis!";
@@ -167,7 +162,7 @@ public class RSLogger
         if(isDeveloperMode())
         {
             try{
-                protocol.SaveProtocol(protocol, file, thisClass);
+                protocol.SaveProtocol(this, protocol, file, thisClass);
             }catch (Exception exception) {
                 error(this.getClass(), "Protocol couldn't saved", exception);
             }

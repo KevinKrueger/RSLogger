@@ -63,18 +63,19 @@ public class LoggerProtocol
 
     /**
      * Saves the protocol in the desired location
+     * @param logger The instance of the RSLogger
      * @param protocol The instance of the protocol
      * @param file Describes the path where the file should be saved
      * @param thisClass Describes the class where the action is performed
      */
-    public void SaveProtocol(LoggerProtocol protocol, String file, Class<?> thisClass) throws IOException {
+    public void SaveProtocol(RSLogger logger, LoggerProtocol protocol, String file, Class<?> thisClass) throws IOException {
 
         PrintWriter printWriter = new PrintWriter(new FileWriter(file));
 
         // Start Line
         printWriter.print("======= RSLogger Protocol from "+ RSLogger.getTimestamp().toLocalDateTime().toLocalDate()+" ======="+"\n");
-
-        // Change Analyze Prosition in file under RSLogger
+        protocol.AddProtocolLine(LoggerType.ANALYSES, RSLogger.getTimestamp(), thisClass, logger.LoggerAnalysis(thisClass));
+        // Change Analyze Position in file under RSLogger
         MoveObjectToListIndex(loggerProtocolLineList, 0); // LoggerAnalysis
         CalculateAveragedMemoryACPU(protocol, thisClass, deviceLoggerProtocolLineList);
         MoveObjectToListIndex(loggerProtocolLineList, 1); // DeviceAnalysis
